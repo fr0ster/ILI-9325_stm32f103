@@ -122,7 +122,7 @@ int main(void)
 			default: LCD_Printf(" Out of day ");	break;
 		} // end switch
 		LCD_Printf("\n ");
-		HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(1000);
 	} // end for i=0
 	LCD_Printf("\n End\n");
