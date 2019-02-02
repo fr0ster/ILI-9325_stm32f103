@@ -98,7 +98,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	LCD_Init();
 	LCD_SetRotation(1);
-	LCD_SetTextColor(GREEN, BLACK);
+	LCD_FillScreen(WHITE);
+	LCD_SetTextColor(CYAN, WHITE);
 	LCD_Printf("\n START\n ");
   /* USER CODE END 2 */
 
@@ -125,7 +126,7 @@ int main(void)
 		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(1000);
 	} // end for i=0
-	LCD_Printf("\n End\n");
+	LCD_Printf("End \n\n ");
 
   /* USER CODE END WHILE */
 
