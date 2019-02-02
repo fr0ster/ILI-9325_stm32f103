@@ -126,7 +126,6 @@ int main(void)
 		HAL_Delay(1000);
 	} // end for i=0
 	LCD_Printf("\n End\n");
-	HAL_Delay(1000);
 
   /* USER CODE END WHILE */
 
