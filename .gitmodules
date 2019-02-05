@@ -1,3 +1,6 @@
 [submodule "Drivers/display_ILI-93xx_sm"]
 	path = Drivers/display_ILI-93xx_sm
 	url = https://github.com/bazhen-paseka/display_ILI-93xx_sm.git
+[submodule "Drivers/flash_stm32f103_hal_sm"]
+	path = Drivers/flash_stm32f103_hal_sm
+	url = https://github.com/bazhen-paseka/flash_stm32f103_hal_sm.git

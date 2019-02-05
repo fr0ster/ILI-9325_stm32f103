@@ -44,6 +44,9 @@
 /* USER CODE BEGIN Includes */
 
 	#include "lcd.h"
+	#include <string.h>
+	#include "stm32f1xx_hal_flash.h"
+	#include "flash_stm32f103_hal_sm.h"
 
 /* USER CODE END Includes */
 
@@ -96,11 +99,40 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
+
 	LCD_Init();
 	LCD_SetRotation(1);
 	LCD_FillScreen(WHITE);
 	LCD_SetTextColor(CYAN, WHITE);
 	LCD_Printf("\n START\n ");
+
+	LCD_Printf("Flash read: ");
+	uint32_t flash_word_u32 = Flash_Read(MY_FLASH_PAGE_ADDR);
+	LCD_Printf("word_u32 = %u\n ", flash_word_u32);
+	LCD_Printf("char= %s\n ", (char *)&flash_word_u32);
+
+	#define STRING_LEFT  ((uint32_t)0x7466654C)
+
+	if (flash_word_u32 != STRING_LEFT)
+	{
+		LCD_Printf("FLASH_Unlock\n ");
+		HAL_FLASH_Unlock();
+
+		LCD_Printf("FLASH Erase Page\n ");
+		Flash_Erase_Page(MY_FLASH_PAGE_ADDR);
+
+		uint32_t flash_string_u32 = STRING_LEFT;
+		LCD_Printf("Write to flash: %s\n ",(char *)&flash_string_u32);
+		Flash_Write( MY_FLASH_PAGE_ADDR, STRING_LEFT);
+
+		HAL_FLASH_Lock();
+		LCD_Printf("HAL FLASH Lock\n ");
+	}
+	else
+	{
+		LCD_Printf("NO write to FLASH.\n ");
+	}
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
