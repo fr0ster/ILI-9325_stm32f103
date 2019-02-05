@@ -46,6 +46,7 @@
 	#include "lcd.h"
 	#include <string.h>
 	#include "stm32f1xx_hal_flash.h"
+	#include "flash_stm32f103_hal_sm.h"
 
 /* USER CODE END Includes */
 
@@ -54,10 +55,6 @@
 /* USER CODE BEGIN PV */
 /* Private variables ---------------------------------------------------------*/
 
-//#define FLASH_KEY1 ((uint32_t)0x45670123)
-//#define FLASH_KEY2 ((uint32_t)0xCDEF89AB)
-#define MY_FLASH_PAGE_ADDR ((uint32_t)0x800FC00)
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -65,12 +62,6 @@ void SystemClock_Config(void);
 
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
-
-uint32_t Flash_Read(uint32_t address);
-uint8_t Flash_Ready(void);
-void Flash_Erase_All_Pages(void);
-void Flash_Erase_Page(uint32_t address);
-void Flash_Write(uint32_t address, uint32_t data);
 
 /* USER CODE END PFP */
 
@@ -109,24 +100,21 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
-
 	LCD_Init();
 	LCD_SetRotation(1);
 	LCD_FillScreen(WHITE);
 	LCD_SetTextColor(CYAN, WHITE);
 	LCD_Printf("\n START\n ");
 
-	LCD_Printf("Flash_Read\n ");
+	LCD_Printf("Flash read: ");
 	uint32_t flash_word_u32 = Flash_Read(MY_FLASH_PAGE_ADDR);
-	LCD_Printf("flash_word_u32 = %u\n ", flash_word_u32);
+	LCD_Printf("word_u32 = %u\n ", flash_word_u32);
 	LCD_Printf("char= %s\n ", (char *)&flash_word_u32);
 
-	//#define STRING_LEFT  ((uint32_t)0x7466654C)
-	#define STRING_LEFT  ((uint32_t)0x3566654C)
+	#define STRING_LEFT  ((uint32_t)0x7466654C)
 
 	if (flash_word_u32 != STRING_LEFT)
 	{
-
 		LCD_Printf("FLASH_Unlock\n ");
 		HAL_FLASH_Unlock();
 
@@ -232,62 +220,6 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-uint32_t Flash_Read(uint32_t address)
-{
-  return (*(__IO uint32_t*) address);
-}
-/**********************************************************************/
-
-//Функция возврщает true когда можно стирать или писать память.
-uint8_t Flash_Ready(void)
-{
-  return !(FLASH->SR & FLASH_SR_BSY);
-}
-/**********************************************************************/
-
-//Функция стирает ВСЕ страницы. При её вызове прошивка самоуничтожается
-void Flash_Erase_All_Pages(void)
-{
-  FLASH->CR |= FLASH_CR_MER; //Устанавливаем бит стирания ВСЕХ страниц
-  FLASH->CR |= FLASH_CR_STRT; //Начать стирание
-  while(!Flash_Ready()) // Ожидание готовности.. Хотя оно уже наверное ни к чему здесь...
-    ;
-  FLASH->CR &= FLASH_CR_MER;
-}
-/**********************************************************************/
-
-//Функция стирает одну страницу. В качестве адреса можно использовать любой
-//принадлежащий диапазону адресов той странице которую нужно очистить.
-void Flash_Erase_Page(uint32_t address)
-{
-  FLASH->CR|= FLASH_CR_PER; //Устанавливаем бит стирания одной страницы
-  FLASH->AR = address; // Задаем её адрес
-  FLASH->CR|= FLASH_CR_STRT; // Запускаем стирание
-  while(!Flash_Ready())
-    ;  //Ждем пока страница сотрется.
-  FLASH->CR&= ~FLASH_CR_PER; //Сбрасываем бит обратно
-}
-/**********************************************************************/
-
-void Flash_Write(uint32_t address,uint32_t data)
-{
-  FLASH->CR |= FLASH_CR_PG; //Разрешаем программирование флеша
-  while(!Flash_Ready()) //Ожидаем готовности флеша к записи
-    ;
-//  *(__IO uint16_t*)address = (uint16_t)data; //Пишем младшие 2 бата
-//  while(!Flash_Ready())
-//    ;
-//  address+=2;
-//  data>>=16;
-//  *(__IO uint16_t*)address = (uint16_t)data; //Пишем старшие 2 байта
-
-  HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address, (uint64_t)data);
-  while(!Flash_Ready())
-    ;
-  FLASH->CR &= ~(FLASH_CR_PG); //Запрещаем программирование флеша
-}
-/**********************************************************************/
 
 /* USER CODE END 4 */
 
