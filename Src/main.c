@@ -48,6 +48,24 @@
 	#include "stm32f1xx_hal_flash.h"
 	#include "flash_stm32f103_hal_sm.h"
 
+			// 		GPIO to data bus
+			// D0 -> PA9
+			// D1 -> PA7		//	PC7 BAZHEN CHANGE TO PA7	#define NEW_BIT1
+			// D2 -> PA10
+			// D3 -> PB3
+			// D4 -> PB5
+			// D5 -> PB4
+			// D6 -> PB10
+			// D7 -> PA8
+
+			// 		GPIO to control bus
+			// RST	->	PB1  	// PC1 BAZHEN CHANGE TO PB1	#define NEW_RST
+			// CS	->	PB0
+			// RS	->	PA4		(CD)
+			// WR	->	PA1
+			// RD	->	PA0
+
+
 /* USER CODE END Includes */
 
 /* Private variables ---------------------------------------------------------*/
@@ -106,12 +124,15 @@ int main(void)
 	LCD_SetTextColor(CYAN, WHITE);
 	LCD_Printf("\n START\n ");
 
+	LCD_Printf("\n 3D GLASS V2.0.0\n ");
+
 	LCD_Printf("Flash read: ");
 	uint32_t flash_word_u32 = Flash_Read(MY_FLASH_PAGE_ADDR);
 	LCD_Printf("word_u32 = %u\n ", flash_word_u32);
 	LCD_Printf("char= %s\n ", (char *)&flash_word_u32);
 
 	#define STRING_LEFT  ((uint32_t)0x7466654C)
+	#define STRING_RIGT  ((uint32_t)0x74676952)
 
 	if (flash_word_u32 != STRING_LEFT)
 	{
