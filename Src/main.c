@@ -124,36 +124,50 @@ int main(void)
 	LCD_SetTextColor(CYAN, WHITE);
 	LCD_Printf("\n START\n ");
 
-	LCD_Printf("\n 3D GLASS V2.0.0\n ");
+	LCD_Printf(" 3D GLASS V2.0.0\n ");
 
 	LCD_Printf("Flash read: ");
 	uint32_t flash_word_u32 = Flash_Read(MY_FLASH_PAGE_ADDR);
-	LCD_Printf("word_u32 = %u\n ", flash_word_u32);
+	LCD_Printf("word_u32 = %x\n ", flash_word_u32);
 	LCD_Printf("char= %s\n ", (char *)&flash_word_u32);
 
 	#define STRING_LEFT  ((uint32_t)0x7466654C)
-	#define STRING_RIGT  ((uint32_t)0x74676952)
+	#define STRING_RIGHT  ((uint32_t)0x74676952)
 
-	if (flash_word_u32 != STRING_LEFT)
+		#define WRITE_TO_FLASH	0
+		#if WRITE_TO_FLASH == 1
+			if (flash_word_u32 == STRING_LEFT)
+			{
+				LCD_Printf("FLASH_Unlock\n ");
+				HAL_FLASH_Unlock();
+
+				LCD_Printf("FLASH Erase Page\n ");
+				Flash_Erase_Page(MY_FLASH_PAGE_ADDR);
+
+				//uint32_t flash_string_u32 = STRING_LEFT;
+				uint32_t flash_string_u32 = STRING_RIGHT;
+				LCD_Printf("Write to flash: %s\n ",(char *)&flash_string_u32);
+				Flash_Write( MY_FLASH_PAGE_ADDR, flash_string_u32);
+
+				HAL_FLASH_Lock();
+				LCD_Printf("HAL FLASH Lock\n ");
+			}
+			else
+			{
+				LCD_Printf("NO write to FLASH.\n ");
+			}
+		#endif
+
+	switch (flash_word_u32)
 	{
-		LCD_Printf("FLASH_Unlock\n ");
-		HAL_FLASH_Unlock();
-
-		LCD_Printf("FLASH Erase Page\n ");
-		Flash_Erase_Page(MY_FLASH_PAGE_ADDR);
-
-		uint32_t flash_string_u32 = STRING_LEFT;
-		LCD_Printf("Write to flash: %s\n ",(char *)&flash_string_u32);
-		Flash_Write( MY_FLASH_PAGE_ADDR, STRING_LEFT);
-
-		HAL_FLASH_Lock();
-		LCD_Printf("HAL FLASH Lock\n ");
-	}
-	else
-	{
-		LCD_Printf("NO write to FLASH.\n ");
+		 case STRING_LEFT:	LCD_SetRotation(3);		break;
+		 case STRING_RIGHT:	LCD_SetRotation(1);		break;
+		 default:									break;
 	}
 
+	LCD_FillScreen(WHITE);
+	LCD_Printf("rotation: %s\n ", (char *)&flash_word_u32);
+	LCD_SetCursor(0, 40);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -164,6 +178,8 @@ int main(void)
 	{
 		LCD_Printf("%d)",i);
 		//LCD_SetCursor(0, 80);
+		//LCD_DrawChar(0,80,i+0x30,CYAN, WHITE, 100);
+
 		switch(i)
 		{
 			case  7: LCD_Printf(" Sunday "); 		break;
@@ -176,6 +192,7 @@ int main(void)
 			default: LCD_Printf(" Out of day ");	break;
 		} // end switch
 		LCD_Printf("\n ");
+
 		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(1000);
 	} // end for i=0
