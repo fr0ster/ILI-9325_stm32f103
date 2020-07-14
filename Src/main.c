@@ -122,6 +122,8 @@ int main(void)
 	LCD_SetRotation(1);
 	LCD_FillScreen(ILI92_WHITE);
 	LCD_SetTextColor(ILI92_GREEN, ILI92_WHITE);
+//	LCD_FillScreen(WHITE);
+//	LCD_SetTextColor(GREEN, WHITE);
 	LCD_Printf("\n START\n ");
 
 	LCD_Printf(" 3D GLASS V2.0.0\n ");
@@ -160,12 +162,13 @@ int main(void)
 
 	switch (flash_word_u32)
 	{
-		 case STRING_LEFT:	LCD_SetRotation(3);		break;
-		 case STRING_RIGHT:	LCD_SetRotation(1);		break;
-		 default:									break;
+		 case 	STRING_LEFT:	LCD_SetRotation(3);		break;
+		 case 	STRING_RIGHT:	LCD_SetRotation(1);		break;
+		 default:				LCD_SetRotation(1);		break;
 	}
 
 	LCD_FillScreen(ILI92_WHITE);
+//	LCD_FillScreen(WHITE);
 	LCD_Printf("rotation: %s\n ", (char *)&flash_word_u32);
 	LCD_SetCursor(0, 40);
   /* USER CODE END 2 */
