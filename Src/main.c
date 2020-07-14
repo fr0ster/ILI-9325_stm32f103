@@ -10,7 +10,7 @@
   * inserted by the user or by software development tools
   * are owned by their respective copyright owners.
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * COPYRIGHT(c) 2020 STMicroelectronics
   *
   * Redistribution and use in source and binary forms, with or without modification,
   * are permitted provided that the following conditions are met:
@@ -39,6 +39,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32f1xx_hal.h"
+#include "usart.h"
 #include "gpio.h"
 
 /* USER CODE BEGIN Includes */
@@ -116,16 +117,31 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USART1_UART_Init();
   /* USER CODE BEGIN 2 */
+
+	typedef struct
+	{
+		UART_HandleTypeDef *uart;
+	}	Debug_struct;
+	Debug_struct DebugH;
+	DebugH.uart = &huart1;
+	#define	DEBUG_STRING_SIZE		100
+	char DebugString[DEBUG_STRING_SIZE];
+
+	sprintf(DebugString,"\r\n");
+	HAL_UART_Transmit(DebugH.uart, (uint8_t *)DebugString, strlen(DebugString), 100);
+
+	sprintf(DebugString,"VRG-2020 \r\nfor_debug UART1 115200/8-N-1\r\n");
+	HAL_UART_Transmit(DebugH.uart, (uint8_t *)DebugString, strlen(DebugString), 100);
+
 
 	LCD_Init();
 	LCD_SetRotation(1);
 	LCD_FillScreen(ILI92_WHITE);
 	LCD_SetTextColor(ILI92_GREEN, ILI92_WHITE);
-//	LCD_FillScreen(WHITE);
-//	LCD_SetTextColor(GREEN, WHITE);
 	LCD_Printf("\n START\n ");
-
+	LCD_Printf("%s",DebugString);
 	LCD_Printf(" 3D GLASS V2.0.0\n ");
 
 	LCD_Printf("Flash read: ");
@@ -167,39 +183,34 @@ int main(void)
 		 default:				LCD_SetRotation(1);		break;
 	}
 
-	LCD_FillScreen(ILI92_WHITE);
+//	LCD_FillScreen(ILI92_WHITE);
 //	LCD_FillScreen(WHITE);
 	LCD_Printf("rotation: %s\n ", (char *)&flash_word_u32);
-	LCD_SetCursor(0, 40);
+	//LCD_SetCursor(0, 40);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	for (int i=0; i<9; i++)
-	{
+  while (1) {
+	for (int i=0; i<9; i++)	{
+		LCD_SetCursor(80, 160);
 		LCD_Printf("%d)",i);
-		//LCD_SetCursor(0, 80);
-		//LCD_DrawChar(0,80,i+0x30,CYAN, WHITE, 100);
 
-		switch(i)
-		{
-			case  7: LCD_Printf(" Sunday "); 		break;
-			case  1: LCD_Printf(" Monday ");		break;
-			case  2: LCD_Printf(" Tuesday "); 		break;
+		switch(i) {
+			case  7: LCD_Printf(" Sunday    "); 	break;
+			case  1: LCD_Printf(" Monday    ");		break;
+			case  2: LCD_Printf(" Tuesday   "); 	break;
 			case  3: LCD_Printf(" Wednesday ");		break;
-			case  4: LCD_Printf(" Thursday ");		break;
-			case  5: LCD_Printf(" Friday ");		break;
-			case  6: LCD_Printf(" Saturday ");		break;
-			default: LCD_Printf(" Out of day ");	break;
+			case  4: LCD_Printf(" Thursday  ");		break;
+			case  5: LCD_Printf(" Friday    ");		break;
+			case  6: LCD_Printf(" Saturday  ");		break;
+			default: LCD_Printf(" Out of day");		break;
 		} // end switch
-		LCD_Printf("\n ");
+		//LCD_Printf("\n ");
 
 		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(1000);
 	} // end for i=0
-	LCD_Printf("End \n\n ");
 
   /* USER CODE END WHILE */
 
