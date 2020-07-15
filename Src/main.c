@@ -43,7 +43,7 @@
 
 			// 		GPIO to control bus
 			// RST	->	PB1  	// PC1 BAZHEN CHANGE TO PB1	#define NEW_RST
-			// CS	->	PB0
+			// CS	->	PB0		on board RED-LED
 			// RS	->	PA4		(CD)
 			// WR	->	PA1
 			// RD	->	PA0
@@ -115,37 +115,28 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 
-	typedef struct
-	{
-		UART_HandleTypeDef *uart;
-	}	Debug_struct;
+  uint32_t pointer_u32 = 0;
 
-	Debug_struct DebugH;
-
-	DebugH.uart = &huart2;
-
-	#define	DEBUG_STRING_SIZE		500
-
-	char DebugString[DEBUG_STRING_SIZE];
-
-	sprintf(DebugString,"VRG-2020 \r\n for_debug USART2 on PA2 115200/8-N-1\r\n");
-	HAL_UART_Transmit(DebugH.uart, (uint8_t *)DebugString, strlen(DebugString), 100);
+	#define	DEBUG_STRING_SIZE		300
+//	char DebugString[DEBUG_STRING_SIZE];
+//
+//	sprintf(DebugString,"VRGC-056th \r\n for_debug USART2 on PA2 115200/8-N-1\r\n");
+//	HAL_UART_Transmit(DebugH.uart, (uint8_t *)DebugString, strlen(DebugString), 100);
 
 	LCD_Init();
 	LCD_SetRotation(1);
 	LCD_FillScreen(ILI92_WHITE);
 	LCD_SetTextColor(ILI92_GREEN, ILI92_WHITE);
-	LCD_Printf("\n START\n ");
-	LCD_Printf("%s",DebugString);
-	LCD_Printf(" 3D GLASS V2.0.0\n ");
+	LCD_Printf("\n START 'VRGC-056th'\n ");
+	LCD_Printf("for_debug USART2 on PA2 115200/8-N-1 \n");
 
-	LCD_Printf("Flash read: ");
+	LCD_Printf("Flash read.. \n");
 	uint32_t flash_word_u32 = Flash_Read(MY_FLASH_PAGE_ADDR);
-	LCD_Printf("word_u32 = %x\n ", flash_word_u32);
-	LCD_Printf("char= %s\n ", (char *)&flash_word_u32);
+	LCD_Printf(" word_u32 = 0x%x; \n", flash_word_u32);
+	LCD_Printf(" Rotation: '%s'; \n ", (char *)&flash_word_u32);
 
-	#define STRING_LEFT  ((uint32_t)0x7466654C)
-	#define STRING_RIGHT  ((uint32_t)0x74676952)
+	#define STRING_LEFT  ( (uint32_t) 0x7466654C )
+	#define STRING_RIGHT ( (uint32_t) 0x74676952 )
 
 		#define WRITE_TO_FLASH	0
 		#if WRITE_TO_FLASH == 1
@@ -179,40 +170,32 @@ int main(void)
 		 default:				LCD_SetRotation(1);		break;
 	}
 
-//	LCD_FillScreen(ILI92_WHITE);
-//	LCD_FillScreen(WHITE);
-	LCD_Printf("rotation: %s\n ", (char *)&flash_word_u32);
-	//LCD_SetCursor(0, 40);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1) {
 	for (int i=0; i<8; i++)	{
-		LCD_SetCursor(80, 160);
-		LCD_Printf("%d)",i);
-
+		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);	on board RED-LED on PB0 (CS_pin)
+		char DebugStr[DEBUG_STRING_SIZE];
+		sprintf(DebugStr," pointer %04u\r\n", (int)pointer_u32++);
+		HAL_UART_Transmit(&huart2, (uint8_t *)DebugStr, strlen(DebugStr), 100);
+		LCD_SetCursor(100, 100);
+		LCD_Printf("%d) ",i);
 		switch(i) {
-			case  7: LCD_Printf(" Sunday    "); 	break;
-			case  1: LCD_Printf(" Monday    ");		break;
-			case  2: LCD_Printf(" Tuesday   "); 	break;
-			case  3: LCD_Printf(" Wednesday ");		break;
-			case  4: LCD_Printf(" Thursday  ");		break;
-			case  5: LCD_Printf(" Friday    ");		break;
-			case  6: LCD_Printf(" Saturday  ");		break;
-			default: LCD_Printf(" Out of day");		break;
+			case  7: LCD_Printf("Sunday____;"); 	break;
+			case  1: LCD_Printf("Monday____;");		break;
+			case  2: LCD_Printf("Tuesday___;"); 	break;
+			case  3: LCD_Printf("Wednesday_;");		break;
+			case  4: LCD_Printf("Thursday__;");		break;
+			case  5: LCD_Printf("Friday____;");		break;
+			case  6: LCD_Printf("Saturday__;");		break;
+			default: LCD_Printf("Out_of_day;");		break;
 		} // end switch
-		//LCD_Printf("\n ");
-		sprintf(DebugString,"Press:'E' - load from EEPROM;\r\n");
-		HAL_UART_Transmit(&huart2, (uint8_t *)DebugString, strlen(DebugString), 100);
-		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(1000);
 	} // end for i=0
-
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
-
   }
   /* USER CODE END 3 */
 }
