@@ -1,46 +1,29 @@
-
+/* USER CODE BEGIN Header */
 /**
   ******************************************************************************
   * @file           : main.c
   * @brief          : Main program body
   ******************************************************************************
-  ** This notice applies to any and all portions of this file
-  * that are not between comment pairs USER CODE BEGIN and
-  * USER CODE END. Other portions of this file, whether 
-  * inserted by the user or by software development tools
-  * are owned by their respective copyright owners.
+  * @attention
   *
-  * COPYRIGHT(c) 2019 STMicroelectronics
+  * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  * All rights reserved.</center></h2>
   *
-  * Redistribution and use in source and binary forms, with or without modification,
-  * are permitted provided that the following conditions are met:
-  *   1. Redistributions of source code must retain the above copyright notice,
-  *      this list of conditions and the following disclaimer.
-  *   2. Redistributions in binary form must reproduce the above copyright notice,
-  *      this list of conditions and the following disclaimer in the documentation
-  *      and/or other materials provided with the distribution.
-  *   3. Neither the name of STMicroelectronics nor the names of its contributors
-  *      may be used to endorse or promote products derived from this software
-  *      without specific prior written permission.
-  *
-  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-  * AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-  * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-  * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-  * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-  * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-  * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  * This software component is licensed by ST under BSD 3-Clause license,
+  * the "License"; You may not use this file except in compliance with the
+  * License. You may obtain a copy of the License at:
+  *                        opensource.org/licenses/BSD-3-Clause
   *
   ******************************************************************************
   */
+/* USER CODE END Header */
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32f1xx_hal.h"
+#include "usart.h"
 #include "gpio.h"
 
+/* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
 	#include "lcd.h"
@@ -60,13 +43,27 @@
 
 			// 		GPIO to control bus
 			// RST	->	PB1  	// PC1 BAZHEN CHANGE TO PB1	#define NEW_RST
-			// CS	->	PB0
+			// CS	->	PB0		on board RED-LED
 			// RS	->	PA4		(CD)
 			// WR	->	PA1
 			// RD	->	PA0
 
 
 /* USER CODE END Includes */
+
+/* Private typedef -----------------------------------------------------------*/
+/* USER CODE BEGIN PTD */
+
+/* USER CODE END PTD */
+
+/* Private define ------------------------------------------------------------*/
+/* USER CODE BEGIN PD */
+/* USER CODE END PD */
+
+/* Private macro -------------------------------------------------------------*/
+/* USER CODE BEGIN PM */
+
+/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
 
@@ -77,20 +74,19 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-
 /* USER CODE BEGIN PFP */
 /* Private function prototypes -----------------------------------------------*/
 
 /* USER CODE END PFP */
 
+/* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
 /* USER CODE END 0 */
 
 /**
   * @brief  The application entry point.
-  *
-  * @retval None
+  * @retval int
   */
 int main(void)
 {
@@ -98,7 +94,7 @@ int main(void)
 
   /* USER CODE END 1 */
 
-  /* MCU Configuration----------------------------------------------------------*/
+  /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
@@ -116,27 +112,36 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+
+  uint32_t pointer_u32 = 0;
+
+	#define	DEBUG_STRING_SIZE		300
+//	char DebugString[DEBUG_STRING_SIZE];
+//
+//	sprintf(DebugString,"VRGC-056th \r\n for_debug USART2 on PA2 115200/8-N-1\r\n");
+//	HAL_UART_Transmit(DebugH.uart, (uint8_t *)DebugString, strlen(DebugString), 100);
 
 	LCD_Init();
 	LCD_SetRotation(1);
 	LCD_FillScreen(ILI92_WHITE);
 	LCD_SetTextColor(ILI92_GREEN, ILI92_WHITE);
-	LCD_Printf("\n START\n ");
+	LCD_Printf("\n START 'VRGC-056th'\n ");
+	LCD_Printf("for_debug USART2 on PA2 115200/8-N-1 \n");
 
-	LCD_Printf(" 3D GLASS V2.0.0\n ");
-
-	LCD_Printf("Flash read: ");
+	LCD_Printf("Flash read.. \n");
 	uint32_t flash_word_u32 = Flash_Read(MY_FLASH_PAGE_ADDR);
-	LCD_Printf("word_u32 = %x\n ", flash_word_u32);
-	LCD_Printf("char= %s\n ", (char *)&flash_word_u32);
+	LCD_Printf(" word_u32 = 0x%x; \n", flash_word_u32);
+	LCD_Printf(" Rotation: '%s'; \n ", (char *)&flash_word_u32);
 
-	#define STRING_LEFT  ((uint32_t)0x7466654C)
-	#define STRING_RIGHT  ((uint32_t)0x74676952)
+	#define STRING_LEFT  ( (uint32_t) 0x7466654C )
+	#define STRING_RIGHT ( (uint32_t) 0x74676952 )
 
 		#define WRITE_TO_FLASH	0
 		#if WRITE_TO_FLASH == 1
-			if (flash_word_u32 == STRING_LEFT)
+			flash_word_u32 = STRING_RIGHT;
+			if (flash_word_u32 == STRING_RIGHT)
 			{
 				LCD_Printf("FLASH_Unlock\n ");
 				HAL_FLASH_Unlock();
@@ -160,51 +165,39 @@ int main(void)
 
 	switch (flash_word_u32)
 	{
-		 case STRING_LEFT:	LCD_SetRotation(3);		break;
-		 case STRING_RIGHT:	LCD_SetRotation(1);		break;
-		 default:									break;
+		 case 	STRING_LEFT:	LCD_SetRotation(3);		break;
+		 case 	STRING_RIGHT:	LCD_SetRotation(1);		break;
+		 default:				LCD_SetRotation(1);		break;
 	}
 
-	LCD_FillScreen(ILI92_WHITE);
-	LCD_Printf("rotation: %s\n ", (char *)&flash_word_u32);
-	LCD_SetCursor(0, 40);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
-	for (int i=0; i<9; i++)
-	{
-		LCD_Printf("%d)",i);
-		//LCD_SetCursor(0, 80);
-		//LCD_DrawChar(0,80,i+0x30,CYAN, WHITE, 100);
-
-		switch(i)
-		{
-			case  7: LCD_Printf(" Sunday "); 		break;
-			case  1: LCD_Printf(" Monday ");		break;
-			case  2: LCD_Printf(" Tuesday "); 		break;
-			case  3: LCD_Printf(" Wednesday ");		break;
-			case  4: LCD_Printf(" Thursday ");		break;
-			case  5: LCD_Printf(" Friday ");		break;
-			case  6: LCD_Printf(" Saturday ");		break;
-			default: LCD_Printf(" Out of day ");	break;
+  while (1) {
+	for (int i=0; i<8; i++)	{
+		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);	on board RED-LED on PB0 (CS_pin)
+		char DebugStr[DEBUG_STRING_SIZE];
+		sprintf(DebugStr," pointer %04u\r\n", (int)pointer_u32++);
+		HAL_UART_Transmit(&huart2, (uint8_t *)DebugStr, strlen(DebugStr), 100);
+		LCD_SetCursor(100, 100);
+		LCD_Printf("%d) ",i);
+		switch(i) {
+			case  7: LCD_Printf("Sunday____;"); 	break;
+			case  1: LCD_Printf("Monday____;");		break;
+			case  2: LCD_Printf("Tuesday___;"); 	break;
+			case  3: LCD_Printf("Wednesday_;");		break;
+			case  4: LCD_Printf("Thursday__;");		break;
+			case  5: LCD_Printf("Friday____;");		break;
+			case  6: LCD_Printf("Saturday__;");		break;
+			default: LCD_Printf("Out_of_day;");		break;
 		} // end switch
-		LCD_Printf("\n ");
-
-		//HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(1000);
 	} // end for i=0
-	LCD_Printf("End \n\n ");
-
-  /* USER CODE END WHILE */
-
-  /* USER CODE BEGIN 3 */
-
+    /* USER CODE END WHILE */
+    /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
-
 }
 
 /**
@@ -213,12 +206,11 @@ int main(void)
   */
 void SystemClock_Config(void)
 {
+  RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+  RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
 
-  RCC_OscInitTypeDef RCC_OscInitStruct;
-  RCC_ClkInitTypeDef RCC_ClkInitStruct;
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
+  /** Initializes the CPU, AHB and APB busses clocks 
+  */
   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
   RCC_OscInitStruct.HSEPredivValue = RCC_HSE_PREDIV_DIV1;
@@ -228,11 +220,10 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLMUL = RCC_PLL_MUL9;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
-
-    /**Initializes the CPU, AHB and APB busses clocks 
-    */
+  /** Initializes the CPU, AHB and APB busses clocks 
+  */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
                               |RCC_CLOCKTYPE_PCLK1|RCC_CLOCKTYPE_PCLK2;
   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_PLLCLK;
@@ -242,19 +233,8 @@ void SystemClock_Config(void)
 
   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_2) != HAL_OK)
   {
-    _Error_Handler(__FILE__, __LINE__);
+    Error_Handler();
   }
-
-    /**Configure the Systick interrupt time 
-    */
-  HAL_SYSTICK_Config(HAL_RCC_GetHCLKFreq()/1000);
-
-    /**Configure the Systick 
-    */
-  HAL_SYSTICK_CLKSourceConfig(SYSTICK_CLKSOURCE_HCLK);
-
-  /* SysTick_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(SysTick_IRQn, 0, 0);
 }
 
 /* USER CODE BEGIN 4 */
@@ -263,11 +243,9 @@ void SystemClock_Config(void)
 
 /**
   * @brief  This function is executed in case of error occurrence.
-  * @param  file: The file name as string.
-  * @param  line: The line in file as a number.
   * @retval None
   */
-void _Error_Handler(char *file, int line)
+void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
@@ -285,7 +263,7 @@ void _Error_Handler(char *file, int line)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
+void assert_failed(uint8_t *file, uint32_t line)
 { 
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
@@ -293,13 +271,5 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/**
-  * @}
-  */
-
-/**
-  * @}
-  */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
