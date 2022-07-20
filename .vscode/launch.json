@@ -1,0 +1,32 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "OpenOCD Debug",
+            "request": "launch",
+            "type": "cortex-debug",
+            "cwd": "${workspaceRoot}",
+            "servertype": "openocd",
+            "executable": "./build/ILI-9325_stm32f103.elf",
+            "svdFile": "${workspaceRoot}/scripts/STM32F103xx.svd",
+            "device": "stlink",
+            "configFiles": [
+                "${workspaceRoot}/scripts/openocd-st-swd.cfg"
+            ]
+        },
+        {
+            "name": "JLink Debug",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/ILI-9325_stm32f103.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "jlink",
+            "svdFile": "${workspaceRoot}/scripts/STM32F103xx.svd",
+            "device": "STM32F103RB",
+            "interface": "swd"
+        }
+    ]
+}

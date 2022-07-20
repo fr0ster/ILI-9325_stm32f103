@@ -1,0 +1,440 @@
+ARM GAS  /tmp/ccjT0bfZ.s 			page 1
+
+
+   1              		.cpu cortex-m3
+   2              		.eabi_attribute 20, 1
+   3              		.eabi_attribute 21, 1
+   4              		.eabi_attribute 23, 3
+   5              		.eabi_attribute 24, 1
+   6              		.eabi_attribute 25, 1
+   7              		.eabi_attribute 26, 1
+   8              		.eabi_attribute 30, 1
+   9              		.eabi_attribute 34, 1
+  10              		.eabi_attribute 18, 4
+  11              		.file	"flash_stm32f103_hal_sm.c"
+  12              		.text
+  13              	.Ltext0:
+  14              		.cfi_sections	.debug_frame
+  15              		.section	.text.Flash_Read,"ax",%progbits
+  16              		.align	1
+  17              		.global	Flash_Read
+  18              		.arch armv7-m
+  19              		.syntax unified
+  20              		.thumb
+  21              		.thumb_func
+  22              		.fpu softvfp
+  24              	Flash_Read:
+  25              	.LVL0:
+  26              	.LFB65:
+  27              		.file 1 "Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c"
+   1:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /**
+   2:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** * \version 1.0
+   3:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** * \author bazhen.levkovets
+   4:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** * \date 2019 
+   5:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *************************************************************************************
+   6:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** * \copyright	Bazhen Levkovets
+   7:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** * \copyright	Brovary
+   8:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** * \copyright	Ukraine
+   9:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *************************************************************************************
+  10:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  11:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  12:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  13:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  14:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *							INCLUDE FILES
+  15:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  16:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  17:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  18:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** #include "flash_stm32f103_hal_sm.h"
+  19:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  20:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  21:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  22:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *							LOCAL DEFINES
+  23:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  24:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  25:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  26:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  27:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  28:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  29:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *							LOCAL CONSTANTS
+  30:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  31:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+ARM GAS  /tmp/ccjT0bfZ.s 			page 2
+
+
+  32:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  33:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  34:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  35:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  36:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *						    LOCAL DATA TYPES
+  37:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  38:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  39:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  40:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  41:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  42:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  43:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *							  LOCAL TABLES
+  44:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  45:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  46:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  47:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  48:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  49:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *								 MACRO'S
+  50:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  51:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  52:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  53:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  54:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  55:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  56:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *						 LOCAL GLOBAL VARIABLES
+  57:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  58:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  59:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  60:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  61:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  62:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *                        LOCAL FUNCTION PROTOTYPES
+  63:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  64:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  65:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  66:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** uint8_t Flash_Ready(void);
+  67:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  68:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /*
+  69:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  70:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** *                           GLOBAL FUNCTIONS
+  71:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** **************************************************************************
+  72:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** */
+  73:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  74:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** uint32_t Flash_Read(uint32_t address) {
+  28              		.loc 1 74 39 view -0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32              		@ link register save eliminated.
+  75:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   return (*(__IO uint32_t*) address);
+  33              		.loc 1 75 3 view .LVU1
+  34              		.loc 1 75 11 is_stmt 0 view .LVU2
+  35 0000 0068     		ldr	r0, [r0]
+  36              	.LVL1:
+  76:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** }
+  37              		.loc 1 76 1 view .LVU3
+  38 0002 7047     		bx	lr
+  39              		.cfi_endproc
+ARM GAS  /tmp/ccjT0bfZ.s 			page 3
+
+
+  40              	.LFE65:
+  42              		.section	.text.Flash_Ready,"ax",%progbits
+  43              		.align	1
+  44              		.global	Flash_Ready
+  45              		.syntax unified
+  46              		.thumb
+  47              		.thumb_func
+  48              		.fpu softvfp
+  50              	Flash_Ready:
+  51              	.LFB66:
+  77:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /**********************************************************************/
+  78:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  79:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ� Ð²Ð¾Ð·Ð²Ñ€Ñ‰Ð°ÐµÑ‚ true ÐºÐ¾Ð³Ð´Ð° 
+  80:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** uint8_t Flash_Ready(void) {
+  52              		.loc 1 80 27 is_stmt 1 view -0
+  53              		.cfi_startproc
+  54              		@ args = 0, pretend = 0, frame = 0
+  55              		@ frame_needed = 0, uses_anonymous_args = 0
+  56              		@ link register save eliminated.
+  81:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   return !(FLASH->SR & FLASH_SR_BSY);
+  57              		.loc 1 81 3 view .LVU5
+  58              		.loc 1 81 17 is_stmt 0 view .LVU6
+  59 0000 034B     		ldr	r3, .L3
+  60 0002 DB68     		ldr	r3, [r3, #12]
+  61              		.loc 1 81 10 view .LVU7
+  62 0004 13F0010F 		tst	r3, #1
+  82:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   // but read next
+  83:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   // https://habr.com/ru/post/213771/
+  84:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** }
+  63              		.loc 1 84 1 view .LVU8
+  64 0008 0CBF     		ite	eq
+  65 000a 0120     		moveq	r0, #1
+  66 000c 0020     		movne	r0, #0
+  67 000e 7047     		bx	lr
+  68              	.L4:
+  69              		.align	2
+  70              	.L3:
+  71 0010 00200240 		.word	1073881088
+  72              		.cfi_endproc
+  73              	.LFE66:
+  75              		.section	.text.Flash_Erase_All_Pages,"ax",%progbits
+  76              		.align	1
+  77              		.global	Flash_Erase_All_Pages
+  78              		.syntax unified
+  79              		.thumb
+  80              		.thumb_func
+  81              		.fpu softvfp
+  83              	Flash_Erase_All_Pages:
+  84              	.LFB67:
+  85:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /**********************************************************************/
+  86:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  87:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  88:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** void Flash_Erase_All_Pages(void) {
+  85              		.loc 1 88 34 is_stmt 1 view -0
+  86              		.cfi_startproc
+  87              		@ args = 0, pretend = 0, frame = 0
+  88              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  /tmp/ccjT0bfZ.s 			page 4
+
+
+  89 0000 08B5     		push	{r3, lr}
+  90              	.LCFI0:
+  91              		.cfi_def_cfa_offset 8
+  92              		.cfi_offset 3, -8
+  93              		.cfi_offset 14, -4
+  89:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR |= FLASH_CR_MER; //Ð£Ñ�Ñ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ Ð±Ð¸Ñ‚
+  94              		.loc 1 89 3 view .LVU10
+  95              		.loc 1 89 13 is_stmt 0 view .LVU11
+  96 0002 094B     		ldr	r3, .L8
+  97 0004 1A69     		ldr	r2, [r3, #16]
+  98 0006 42F00402 		orr	r2, r2, #4
+  99 000a 1A61     		str	r2, [r3, #16]
+  90:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR |= FLASH_CR_STRT; //Ð�Ð°Ñ‡Ð°Ñ‚ÑŒ Ñ�Ñ‚Ð¸Ñ€Ð°Ð½Ð¸Ðµ
+ 100              		.loc 1 90 3 is_stmt 1 view .LVU12
+ 101              		.loc 1 90 13 is_stmt 0 view .LVU13
+ 102 000c 1A69     		ldr	r2, [r3, #16]
+ 103 000e 42F04002 		orr	r2, r2, #64
+ 104 0012 1A61     		str	r2, [r3, #16]
+  91:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready()) // ÐžÐ¶Ð¸Ð´Ð°Ð½Ð¸Ðµ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾Ñ�Ñ‚
+ 105              		.loc 1 91 3 is_stmt 1 view .LVU14
+ 106              	.L6:
+  92:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****     ;
+ 107              		.loc 1 92 5 discriminator 1 view .LVU15
+  91:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready()) // ÐžÐ¶Ð¸Ð´Ð°Ð½Ð¸Ðµ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾Ñ�Ñ‚
+ 108              		.loc 1 91 10 is_stmt 0 discriminator 1 view .LVU16
+ 109 0014 FFF7FEFF 		bl	Flash_Ready
+ 110              	.LVL2:
+  91:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready()) // ÐžÐ¶Ð¸Ð´Ð°Ð½Ð¸Ðµ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾Ñ�Ñ‚
+ 111              		.loc 1 91 8 discriminator 1 view .LVU17
+ 112 0018 0028     		cmp	r0, #0
+ 113 001a FBD0     		beq	.L6
+  93:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR &= FLASH_CR_MER;
+ 114              		.loc 1 93 3 is_stmt 1 view .LVU18
+ 115              		.loc 1 93 13 is_stmt 0 view .LVU19
+ 116 001c 024A     		ldr	r2, .L8
+ 117 001e 1369     		ldr	r3, [r2, #16]
+ 118 0020 03F00403 		and	r3, r3, #4
+ 119 0024 1361     		str	r3, [r2, #16]
+  94:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** }
+ 120              		.loc 1 94 1 view .LVU20
+ 121 0026 08BD     		pop	{r3, pc}
+ 122              	.L9:
+ 123              		.align	2
+ 124              	.L8:
+ 125 0028 00200240 		.word	1073881088
+ 126              		.cfi_endproc
+ 127              	.LFE67:
+ 129              		.section	.text.Flash_Erase_Page,"ax",%progbits
+ 130              		.align	1
+ 131              		.global	Flash_Erase_Page
+ 132              		.syntax unified
+ 133              		.thumb
+ 134              		.thumb_func
+ 135              		.fpu softvfp
+ 137              	Flash_Erase_Page:
+ 138              	.LVL3:
+ 139              	.LFB68:
+ARM GAS  /tmp/ccjT0bfZ.s 			page 5
+
+
+  95:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /**********************************************************************/
+  96:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+  97:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //Ð¤ÑƒÐ½ÐºÑ†Ð¸Ñ� Ñ�Ñ‚Ð¸Ñ€Ð°ÐµÑ‚ Ð¾Ð´Ð½Ñƒ Ñ�Ñ‚Ñ€�
+  98:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //Ð¿Ñ€Ð¸Ð½Ð°Ð´Ð»ÐµÐ¶Ð°Ñ‰Ð¸Ð¹ Ð´Ð¸Ð°Ð¿Ð°Ð·Ð¾Ð½Ñƒ Ð°�
+  99:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** void Flash_Erase_Page(uint32_t address) {
+ 140              		.loc 1 99 41 is_stmt 1 view -0
+ 141              		.cfi_startproc
+ 142              		@ args = 0, pretend = 0, frame = 0
+ 143              		@ frame_needed = 0, uses_anonymous_args = 0
+ 144              		.loc 1 99 41 is_stmt 0 view .LVU22
+ 145 0000 08B5     		push	{r3, lr}
+ 146              	.LCFI1:
+ 147              		.cfi_def_cfa_offset 8
+ 148              		.cfi_offset 3, -8
+ 149              		.cfi_offset 14, -4
+ 100:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR|= FLASH_CR_PER; //Ð£Ñ�Ñ‚Ð°Ð½Ð°Ð²Ð»Ð¸Ð²Ð°ÐµÐ¼ Ð±Ð¸Ñ‚ 
+ 150              		.loc 1 100 3 is_stmt 1 view .LVU23
+ 151              		.loc 1 100 12 is_stmt 0 view .LVU24
+ 152 0002 0A4B     		ldr	r3, .L13
+ 153 0004 1A69     		ldr	r2, [r3, #16]
+ 154 0006 42F00202 		orr	r2, r2, #2
+ 155 000a 1A61     		str	r2, [r3, #16]
+ 101:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->AR = address; // Ð—Ð°Ð´Ð°ÐµÐ¼ ÐµÑ‘ Ð°Ð´Ñ€ÐµÑ�
+ 156              		.loc 1 101 3 is_stmt 1 view .LVU25
+ 157              		.loc 1 101 13 is_stmt 0 view .LVU26
+ 158 000c 5861     		str	r0, [r3, #20]
+ 102:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR|= FLASH_CR_STRT; // Ð—Ð°Ð¿ÑƒÑ�ÐºÐ°ÐµÐ¼ Ñ�Ñ‚Ð¸Ñ€Ð°Ð½�
+ 159              		.loc 1 102 3 is_stmt 1 view .LVU27
+ 160              		.loc 1 102 12 is_stmt 0 view .LVU28
+ 161 000e 1A69     		ldr	r2, [r3, #16]
+ 162 0010 42F04002 		orr	r2, r2, #64
+ 163 0014 1A61     		str	r2, [r3, #16]
+ 103:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready())
+ 164              		.loc 1 103 3 is_stmt 1 view .LVU29
+ 165              	.LVL4:
+ 166              	.L11:
+ 104:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****     ;  //Ð–Ð´ÐµÐ¼ Ð¿Ð¾ÐºÐ° Ñ�Ñ‚Ñ€Ð°Ð½Ð¸Ñ†Ð° Ñ�Ð¾Ñ‚Ñ�
+ 167              		.loc 1 104 5 discriminator 1 view .LVU30
+ 103:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready())
+ 168              		.loc 1 103 10 is_stmt 0 discriminator 1 view .LVU31
+ 169 0016 FFF7FEFF 		bl	Flash_Ready
+ 170              	.LVL5:
+ 103:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready())
+ 171              		.loc 1 103 8 discriminator 1 view .LVU32
+ 172 001a 0028     		cmp	r0, #0
+ 173 001c FBD0     		beq	.L11
+ 105:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR&= ~FLASH_CR_PER; //Ð¡Ð±Ñ€Ð°Ñ�Ñ‹Ð²Ð°ÐµÐ¼ Ð±Ð¸Ñ‚ Ð¾Ð±Ñ
+ 174              		.loc 1 105 3 is_stmt 1 view .LVU33
+ 175              		.loc 1 105 12 is_stmt 0 view .LVU34
+ 176 001e 034A     		ldr	r2, .L13
+ 177 0020 1369     		ldr	r3, [r2, #16]
+ 178 0022 23F00203 		bic	r3, r3, #2
+ 179 0026 1361     		str	r3, [r2, #16]
+ 106:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** }
+ 180              		.loc 1 106 1 view .LVU35
+ 181 0028 08BD     		pop	{r3, pc}
+ 182              	.L14:
+ARM GAS  /tmp/ccjT0bfZ.s 			page 6
+
+
+ 183 002a 00BF     		.align	2
+ 184              	.L13:
+ 185 002c 00200240 		.word	1073881088
+ 186              		.cfi_endproc
+ 187              	.LFE68:
+ 189              		.section	.text.Flash_Write,"ax",%progbits
+ 190              		.align	1
+ 191              		.global	Flash_Write
+ 192              		.syntax unified
+ 193              		.thumb
+ 194              		.thumb_func
+ 195              		.fpu softvfp
+ 197              	Flash_Write:
+ 198              	.LVL6:
+ 199              	.LFB69:
+ 107:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** /**********************************************************************/
+ 108:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+ 109:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** void Flash_Write(uint32_t address,uint32_t data) {
+ 200              		.loc 1 109 50 is_stmt 1 view -0
+ 201              		.cfi_startproc
+ 202              		@ args = 0, pretend = 0, frame = 0
+ 203              		@ frame_needed = 0, uses_anonymous_args = 0
+ 204              		.loc 1 109 50 is_stmt 0 view .LVU37
+ 205 0000 38B5     		push	{r3, r4, r5, lr}
+ 206              	.LCFI2:
+ 207              		.cfi_def_cfa_offset 16
+ 208              		.cfi_offset 3, -16
+ 209              		.cfi_offset 4, -12
+ 210              		.cfi_offset 5, -8
+ 211              		.cfi_offset 14, -4
+ 212 0002 0446     		mov	r4, r0
+ 213 0004 0D46     		mov	r5, r1
+ 110:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR |= FLASH_CR_PG; //Ð Ð°Ð·Ñ€ÐµÑˆÐ°ÐµÐ¼ Ð¿Ñ€Ð¾Ð³Ñ€Ð°Ð¼�
+ 214              		.loc 1 110 3 is_stmt 1 view .LVU38
+ 215              		.loc 1 110 13 is_stmt 0 view .LVU39
+ 216 0006 0C4A     		ldr	r2, .L19
+ 217 0008 1369     		ldr	r3, [r2, #16]
+ 218 000a 43F00103 		orr	r3, r3, #1
+ 219 000e 1361     		str	r3, [r2, #16]
+ 111:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready()) //ÐžÐ¶Ð¸Ð´Ð°ÐµÐ¼ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾Ñ�Ñ‚Ð¸ 
+ 220              		.loc 1 111 3 is_stmt 1 view .LVU40
+ 221              	.LVL7:
+ 222              	.L16:
+ 112:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****     ;
+ 223              		.loc 1 112 5 discriminator 1 view .LVU41
+ 111:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready()) //ÐžÐ¶Ð¸Ð´Ð°ÐµÐ¼ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾Ñ�Ñ‚Ð¸ 
+ 224              		.loc 1 111 10 is_stmt 0 discriminator 1 view .LVU42
+ 225 0010 FFF7FEFF 		bl	Flash_Ready
+ 226              	.LVL8:
+ 111:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready()) //ÐžÐ¶Ð¸Ð´Ð°ÐµÐ¼ Ð³Ð¾Ñ‚Ð¾Ð²Ð½Ð¾Ñ�Ñ‚Ð¸ 
+ 227              		.loc 1 111 8 discriminator 1 view .LVU43
+ 228 0014 0028     		cmp	r0, #0
+ 229 0016 FBD0     		beq	.L16
+ 113:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //  *(__IO uint16_t*)address = (uint16_t)data; //ÐŸÐ¸ÑˆÐµÐ¼ Ð¼Ð»Ð°Ð´ÑˆÐ¸Ðµ 
+ 114:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //  while(!Flash_Ready())
+ 115:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //    ;
+ 116:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //  address+=2;
+ARM GAS  /tmp/ccjT0bfZ.s 			page 7
+
+
+ 117:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //  data>>=16;
+ 118:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** //  *(__IO uint16_t*)address = (uint16_t)data; //ÐŸÐ¸ÑˆÐµÐ¼ Ñ�Ñ‚Ð°Ñ€ÑˆÐ¸Ð
+ 119:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+ 120:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, address, (uint64_t)data);
+ 230              		.loc 1 120 3 is_stmt 1 view .LVU44
+ 231 0018 2A46     		mov	r2, r5
+ 232 001a 0023     		movs	r3, #0
+ 233 001c 2146     		mov	r1, r4
+ 234 001e 0220     		movs	r0, #2
+ 235 0020 FFF7FEFF 		bl	HAL_FLASH_Program
+ 236              	.LVL9:
+ 121:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** 
+ 122:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   while(!Flash_Ready())
+ 237              		.loc 1 122 3 view .LVU45
+ 238              	.L17:
+ 123:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****     ;
+ 239              		.loc 1 123 5 discriminator 1 view .LVU46
+ 122:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****     ;
+ 240              		.loc 1 122 10 is_stmt 0 discriminator 1 view .LVU47
+ 241 0024 FFF7FEFF 		bl	Flash_Ready
+ 242              	.LVL10:
+ 122:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****     ;
+ 243              		.loc 1 122 8 discriminator 1 view .LVU48
+ 244 0028 0028     		cmp	r0, #0
+ 245 002a FBD0     		beq	.L17
+ 124:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c ****   FLASH->CR &= ~(FLASH_CR_PG); //Ð—Ð°Ð¿Ñ€ÐµÑ‰Ð°ÐµÐ¼ Ð¿Ñ€Ð¾Ð³Ñ€Ð°
+ 246              		.loc 1 124 3 is_stmt 1 view .LVU49
+ 247              		.loc 1 124 13 is_stmt 0 view .LVU50
+ 248 002c 024A     		ldr	r2, .L19
+ 249 002e 1369     		ldr	r3, [r2, #16]
+ 250 0030 23F00103 		bic	r3, r3, #1
+ 251 0034 1361     		str	r3, [r2, #16]
+ 125:Drivers/flash_stm32f103_hal_sm/flash_stm32f103_hal_sm.c **** }
+ 252              		.loc 1 125 1 view .LVU51
+ 253 0036 38BD     		pop	{r3, r4, r5, pc}
+ 254              	.LVL11:
+ 255              	.L20:
+ 256              		.loc 1 125 1 view .LVU52
+ 257              		.align	2
+ 258              	.L19:
+ 259 0038 00200240 		.word	1073881088
+ 260              		.cfi_endproc
+ 261              	.LFE69:
+ 263              		.text
+ 264              	.Letext0:
+ 265              		.file 2 "/usr/lib/gcc/arm-none-eabi/8.3.1/include/stdint.h"
+ 266              		.file 3 "Drivers/CMSIS/Include/core_cm3.h"
+ 267              		.file 4 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/system_stm32f1xx.h"
+ 268              		.file 5 "Drivers/CMSIS/Device/ST/STM32F1xx/Include/stm32f103xb.h"
+ 269              		.file 6 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h"
+ 270              		.file 7 "/usr/lib/gcc/arm-none-eabi/8.3.1/include/stddef.h"
+ 271              		.file 8 "/usr/include/newlib/sys/_types.h"
+ 272              		.file 9 "/usr/include/newlib/sys/reent.h"
+ 273              		.file 10 "/usr/include/newlib/sys/lock.h"
+ 274              		.file 11 "Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h"
+ARM GAS  /tmp/ccjT0bfZ.s 			page 8
+
+
+DEFINED SYMBOLS
+                            *ABS*:0000000000000000 flash_stm32f103_hal_sm.c
+     /tmp/ccjT0bfZ.s:16     .text.Flash_Read:0000000000000000 $t
+     /tmp/ccjT0bfZ.s:24     .text.Flash_Read:0000000000000000 Flash_Read
+     /tmp/ccjT0bfZ.s:43     .text.Flash_Ready:0000000000000000 $t
+     /tmp/ccjT0bfZ.s:50     .text.Flash_Ready:0000000000000000 Flash_Ready
+     /tmp/ccjT0bfZ.s:71     .text.Flash_Ready:0000000000000010 $d
+     /tmp/ccjT0bfZ.s:76     .text.Flash_Erase_All_Pages:0000000000000000 $t
+     /tmp/ccjT0bfZ.s:83     .text.Flash_Erase_All_Pages:0000000000000000 Flash_Erase_All_Pages
+     /tmp/ccjT0bfZ.s:125    .text.Flash_Erase_All_Pages:0000000000000028 $d
+     /tmp/ccjT0bfZ.s:130    .text.Flash_Erase_Page:0000000000000000 $t
+     /tmp/ccjT0bfZ.s:137    .text.Flash_Erase_Page:0000000000000000 Flash_Erase_Page
+     /tmp/ccjT0bfZ.s:185    .text.Flash_Erase_Page:000000000000002c $d
+     /tmp/ccjT0bfZ.s:190    .text.Flash_Write:0000000000000000 $t
+     /tmp/ccjT0bfZ.s:197    .text.Flash_Write:0000000000000000 Flash_Write
+     /tmp/ccjT0bfZ.s:259    .text.Flash_Write:0000000000000038 $d
+
+UNDEFINED SYMBOLS
+HAL_FLASH_Program
