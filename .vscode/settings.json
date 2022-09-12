@@ -181,7 +181,8 @@
         "i2ctools.h": "c",
         "cmsis_os.h": "c",
         "spi.h": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "lcd_config_local.h": "c"
     },
     "cortex-debug.gdbPath": "gdb-multiarch",
     "cortex-debug.armToolchainPath": "/usr/bin",
